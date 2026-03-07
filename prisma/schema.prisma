@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   @db.VarChar(55)
+  name      String?  @db.VarChar(255)
+  photoUrl  String?
+  role      Role     @default(ADMIN)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  gecko     Gecko[]
+}
+
+model Gecko {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(255)
+  harga     Int
+  stok      Int
+  imageUrl  String?
+  jenis     String?  @db.VarChar(255)
+  deskripsi String?  @db.VarChar(1000)
+  published Boolean  @default(false)
+  
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CompanyProfile{
+  id        String  @id @default(cuid())
+  visi      String
+  misi      String
+
+  alamat    String
+
+  email     String  @unique
+  wa        String  @db.VarChar(50)
+
+  instagram String
+  tiktok    String
+
+  tentangkami String
+}
+
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+}
