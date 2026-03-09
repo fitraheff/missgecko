@@ -15,8 +15,8 @@ export class GeckoEntity implements Gecko {
   @ApiProperty()
   stok: number;
 
-  @ApiProperty({ required: false })
-  deskripsi: string;
+  @ApiProperty({ required: false, nullable: true })
+  deskripsi: string | null;
 
   @ApiProperty({ required: false, nullable: true })
   imageUrl: string | null;
@@ -27,8 +27,8 @@ export class GeckoEntity implements Gecko {
   @ApiProperty()
   published: boolean;
 
-  @ApiProperty({ required: false })
-  authorId: string;
+  @ApiProperty({ required: false, nullable: true })
+  authorId: string | null;
 
   @ApiProperty({ required: false, type: UserEntity })
   author?: UserEntity;

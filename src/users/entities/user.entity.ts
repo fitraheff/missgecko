@@ -1,11 +1,11 @@
-import { User } from '@prisma/client';
+import { User, Role } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
-export enum Role {
-  ADMIN = 'ADMIN',
-  SUPERADMIN = 'SUPERADMIN',
-}
+// export enum Role {
+//   ADMIN = 'ADMIN',
+//   SUPERADMIN = 'SUPERADMIN',
+// }
 
 export class UserEntity implements User {
   constructor(partial: Partial<UserEntity>) {
@@ -15,8 +15,8 @@ export class UserEntity implements User {
   @ApiProperty()
   id: string;
 
-  @ApiProperty()
-  name: string;
+  @ApiProperty({ required: false, nullable: true })
+  name: string | null;
 
   @ApiProperty()
   email: string;
@@ -24,8 +24,8 @@ export class UserEntity implements User {
   @Exclude()
   password: string;
 
-  @ApiProperty()
-  photoUrl: string;
+  @ApiProperty({ required: false, nullable: true })
+  photoUrl: string | null;
 
   @ApiProperty()
   role: Role;
