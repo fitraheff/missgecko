@@ -15,7 +15,7 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String   @db.VarChar(55)
+  password  String   
   name      String?  @db.VarChar(255)
   photoUrl  String?
   role      Role     @default(ADMIN)

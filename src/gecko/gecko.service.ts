@@ -6,8 +6,13 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class GeckoService {
   constructor(private prisma: PrismaService) {}
-  create(createGeckoDto: CreateGeckoDto) {
-    return this.prisma.gecko.create({ data: createGeckoDto });
+  create(createGeckoDto: CreateGeckoDto, authorId: string) {
+    return this.prisma.gecko.create({
+      data: {
+        ...createGeckoDto,
+        authorId,
+      },
+    });
   }
 
   findDrafts() {
@@ -21,7 +26,7 @@ export class GeckoService {
   findOne(id: string) {
     return this.prisma.gecko.findUnique({
       where: { id },
-      include: { author: true },
+      // include: { author: true },
     });
   }
 

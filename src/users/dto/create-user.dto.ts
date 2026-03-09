@@ -29,4 +29,10 @@ export class CreateUserDto {
   @MinLength(6)
   @MaxLength(55)
   password: string;
+
+  @ApiProperty({ required: false, nullable: true })
+  @IsString()
+  @IsOptional()
+  @MaxLength(255)
+  photoUrl: string | null;
 }

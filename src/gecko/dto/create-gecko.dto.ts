@@ -49,11 +49,11 @@ export class CreateGeckoDto {
   @ApiProperty({ required: false })
   jenis?: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  authorId?: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // @IsOptional()
+  // @ApiProperty({ required: false })
+  // authorId?: string;
 
   @IsBoolean()
   @IsOptional()
