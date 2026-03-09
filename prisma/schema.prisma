@@ -43,10 +43,11 @@ model Gecko {
   updatedAt DateTime @updatedAt
 }
 
-model CompanyProfile{
+model Company{
   id        String  @id @default(cuid())
   visi      String
   misi      String
+  logo      String
 
   alamat    String
 

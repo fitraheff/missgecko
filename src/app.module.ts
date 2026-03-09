@@ -7,6 +7,7 @@ import { GeckoModule } from './gecko/gecko.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { config } from './config/configuration';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { config } from './config/configuration';
       isGlobal: true,
       load: [config],
     }),
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
