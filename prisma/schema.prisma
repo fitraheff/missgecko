@@ -43,21 +43,22 @@ model Gecko {
   updatedAt DateTime @updatedAt
 }
 
-model Company{
-  id        String  @id @default(cuid())
-  visi      String
-  misi      String
-  logo      String
+model Company {
+  id        Int  @id @default(1)
+  name      String?  @db.VarChar(100)
+  visi      String?
+  misi      String?
+  logo      String?
 
-  alamat    String
+  alamat    String?
 
-  email     String  @unique
-  wa        String  @db.VarChar(50)
+  email     String?  @unique
+  whatsapp  String?  @db.VarChar(50)
 
-  instagram String
-  tiktok    String
+  instagram String?
+  tiktok    String?
 
-  tentangkami String
+  tentangkami String?
 }
 
 
