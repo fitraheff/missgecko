@@ -60,7 +60,7 @@ export class GeckoController {
     if (!gecko) {
       throw new NotFoundException(`Gecko with id ${id} not found`);
     }
-    return gecko;
+    return new GeckoEntity(gecko);
   }
 
   @Patch(':id')

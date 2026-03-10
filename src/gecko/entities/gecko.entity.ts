@@ -30,11 +30,12 @@ export class GeckoEntity implements Gecko {
   @ApiProperty({ required: false, nullable: true })
   authorId: string | null;
 
-  @ApiProperty({ required: false, type: UserEntity })
-  author?: UserEntity;
+  @ApiProperty({ required: false, type: UserEntity, nullable: true })
+  author?: UserEntity | null;
 
   constructor({ author, ...data }: Partial<GeckoEntity>) {
     Object.assign(this, data);
+
     if (author) {
       this.author = new UserEntity(author);
     }

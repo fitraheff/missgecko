@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  ParseIntPipe,
+  NotFoundException,
+} from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -23,14 +32,21 @@ export class CompanyController {
 
   @Get(':id')
   @ApiOkResponse({ type: CompanyEntity })
-  findOne(@Param('id') id: string) {
-    return this.companyService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const company = await this.companyService.findOne(id);
+    if (!company) {
+      throw new NotFoundException('Company not found');
+    }
+    return company;
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: CompanyEntity })
-  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
-    return this.companyService.update(+id, updateCompanyDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCompanyDto: UpdateCompanyDto,
+  ) {
+    return this.companyService.update(id, updateCompanyDto);
   }
 
   // @Delete(':id')

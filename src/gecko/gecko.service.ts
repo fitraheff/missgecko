@@ -26,7 +26,7 @@ export class GeckoService {
   findOne(id: string) {
     return this.prisma.gecko.findUnique({
       where: { id },
-      // include: { author: true },
+      include: { author: true },
     });
   }
 

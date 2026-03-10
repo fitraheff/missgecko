@@ -30,8 +30,8 @@ export class CompanyEntity implements Company {
   instagram: string;
 
   @ApiProperty()
-  tikTok: string;
+  tiktok: string;
 
   @ApiProperty()
-  tentangKami: string;
+  tentangkami: string;
 }
