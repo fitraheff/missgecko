@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompanyDto } from './dto/create-company.dto';
+// import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -7,9 +7,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CompanyService {
   constructor(private prisma: PrismaService) {}
 
-  create(createCompanyDto: CreateCompanyDto) {
-    return this.prisma.company.create({ data: createCompanyDto });
-  }
+  // create(createCompanyDto: CreateCompanyDto) {
+  //   return this.prisma.company.create({ data: createCompanyDto });
+  // }
 
   // findAll() {
   //   return `This action returns all company`;
