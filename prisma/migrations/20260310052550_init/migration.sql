@@ -5,11 +5,12 @@ CREATE TYPE "Role" AS ENUM ('SUPERADMIN', 'ADMIN');
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" VARCHAR(55) NOT NULL,
+    "password" TEXT NOT NULL,
     "name" VARCHAR(255),
     "photoUrl" TEXT,
     "role" "Role" NOT NULL DEFAULT 'ADMIN',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -32,25 +33,27 @@ CREATE TABLE "Gecko" (
 );
 
 -- CreateTable
-CREATE TABLE "CompanyProfile" (
-    "id" TEXT NOT NULL,
+CREATE TABLE "Company" (
+    "id" INTEGER NOT NULL DEFAULT 1,
+    "name" VARCHAR(100) NOT NULL,
     "visi" TEXT NOT NULL,
     "misi" TEXT NOT NULL,
+    "logo" TEXT NOT NULL,
     "alamat" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "wa" VARCHAR(50) NOT NULL,
+    "whatsapp" VARCHAR(50) NOT NULL,
     "instagram" TEXT NOT NULL,
     "tiktok" TEXT NOT NULL,
     "tentangkami" TEXT NOT NULL,
 
-    CONSTRAINT "CompanyProfile_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CompanyProfile_email_key" ON "CompanyProfile"("email");
+CREATE UNIQUE INDEX "Company_email_key" ON "Company"("email");
 
 -- AddForeignKey
 ALTER TABLE "Gecko" ADD CONSTRAINT "Gecko_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
