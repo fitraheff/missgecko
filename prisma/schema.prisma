@@ -24,6 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
   
   gecko     Gecko[]
+  careSheet CareSheet[]
 }
 
 model Gecko {
@@ -73,8 +74,8 @@ model CareSheet {
   
 //difficulty  String?
 
-  authorId    String?
   author      User?    @relation(fields: [authorId], references: [id])
+  authorId    String?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

@@ -1,7 +1,8 @@
-import { Caresheet } from '@prisma/client';
+import { CareSheet } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserEntity } from 'src/users/entities/user.entity';
 
-export class CaresheetEntity implements Caresheet {
+export class CaresheetEntity implements CareSheet {
   @ApiProperty()
   id: string;
 
@@ -31,4 +32,18 @@ export class CaresheetEntity implements Caresheet {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ required: false, nullable: true })
+  authorId: string | null;
+
+  @ApiProperty({ required: false, type: UserEntity })
+  author?: UserEntity;
+
+  constructor({ author, ...data }: Partial<CaresheetEntity>) {
+    Object.assign(this, data);
+
+    if (author) {
+      this.author = new UserEntity(author);
+    }
+  }
 }

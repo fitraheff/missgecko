@@ -6,12 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CaresheetService } from './caresheet.service';
 import { CreateCaresheetDto } from './dto/create-caresheet.dto';
 import { UpdateCaresheetDto } from './dto/update-caresheet.dto';
-import { ApiTags, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOkResponse,
+  ApiCreatedResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { CaresheetEntity } from './entities/caresheet.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('caresheet')
 @ApiTags('Caresheet')
@@ -19,41 +27,61 @@ export class CaresheetController {
   constructor(private readonly caresheetService: CaresheetService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: CaresheetEntity })
-  create(@Body() createCaresheetDto: CreateCaresheetDto) {
-    return this.caresheetService.create(createCaresheetDto);
+  async create(@Body() createCaresheetDto: CreateCaresheetDto) {
+    return new CaresheetEntity(
+      await this.caresheetService.create(createCaresheetDto),
+    );
   }
 
   @Get()
   @ApiOkResponse({ type: [CaresheetEntity] })
-  findAll() {
-    return this.caresheetService.findAll();
+  async findAll() {
+    const caresheets = await this.caresheetService.findAll();
+    return caresheets.map((caresheet) => new CaresheetEntity(caresheet));
   }
 
   @Get('drafts')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: [CaresheetEntity] })
-  findDrafts() {
-    return this.caresheetService.findDrafts();
+  async findDrafts() {
+    const drafts = await this.caresheetService.findDrafts();
+    return drafts.map((caresheet) => new CaresheetEntity(caresheet));
   }
 
   @Get(':id')
   @ApiOkResponse({ type: CaresheetEntity })
-  findOne(@Param('id') id: string) {
-    return this.caresheetService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const caresheet = await this.caresheetService.findOne(id);
+
+    if (!caresheet) {
+      throw new NotFoundException(`Caresheet with ID ${id} not found`);
+    }
+
+    return new CaresheetEntity(caresheet);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: CaresheetEntity })
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCaresheetDto: UpdateCaresheetDto,
   ) {
-    return this.caresheetService.update(id, updateCaresheetDto);
+    return new CaresheetEntity(
+      await this.caresheetService.update(id, updateCaresheetDto),
+    );
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: CaresheetEntity })
-  remove(@Param('id') id: string) {
-    return this.caresheetService.remove(id);
+  async remove(@Param('id') id: string) {
+    return new CaresheetEntity(await this.caresheetService.remove(id));
   }
 }
