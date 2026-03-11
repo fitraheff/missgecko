@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { config } from './config/configuration';
 import { CompanyModule } from './company/company.module';
+import { CaresheetModule } from './caresheet/caresheet.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CompanyModule } from './company/company.module';
       load: [config],
     }),
     CompanyModule,
+    CaresheetModule,
   ],
   controllers: [AppController],
   providers: [AppService],

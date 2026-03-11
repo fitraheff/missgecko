@@ -6,30 +6,22 @@ import {
   Param,
   ParseIntPipe,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
-// import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { CompanyEntity } from './entities/company.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('company')
 @ApiTags('Company')
 export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
-  // @Post()
-  // @ApiCreatedResponse({ type: CompanyEntity })
-  // create(@Body() createCompanyDto: CreateCompanyDto) {
-  //   return this.companyService.create(createCompanyDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.companyService.findAll();
-  // }
-
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: CompanyEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const company = await this.companyService.findOne(id);
@@ -40,6 +32,8 @@ export class CompanyController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: CompanyEntity })
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -47,9 +41,4 @@ export class CompanyController {
   ) {
     return this.companyService.update(id, updateCompanyDto);
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.companyService.remove(+id);
-  // }
 }
