@@ -63,7 +63,7 @@ model Company {
 }
 
 model CareSheet {
-  id          String   @id @default(uuid())
+  id          String   @id @default(cuid())
   title       String   @db.VarChar(255)
   description String?
   content     String

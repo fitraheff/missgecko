@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Get,
@@ -8,6 +13,7 @@ import {
   Delete,
   NotFoundException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CaresheetService } from './caresheet.service';
 import { CreateCaresheetDto } from './dto/create-caresheet.dto';
@@ -30,9 +36,12 @@ export class CaresheetController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: CaresheetEntity })
-  async create(@Body() createCaresheetDto: CreateCaresheetDto) {
+  async create(
+    @Body() createCaresheetDto: CreateCaresheetDto,
+    @Req() req: any,
+  ) {
     return new CaresheetEntity(
-      await this.caresheetService.create(createCaresheetDto),
+      await this.caresheetService.create(createCaresheetDto, req.user.id),
     );
   }
 

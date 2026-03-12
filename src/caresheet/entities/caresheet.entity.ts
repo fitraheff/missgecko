@@ -10,16 +10,16 @@ export class CaresheetEntity implements CareSheet {
   title: string;
 
   @ApiProperty({ required: false, nullable: true })
-  description?: string | null;
+  description: string | null;
 
   @ApiProperty()
   content: string;
 
   @ApiProperty({ required: false, nullable: true })
-  imageUrl?: string | null;
+  imageUrl: string | null;
 
   @ApiProperty({ required: false, nullable: true })
-  species?: string | null;
+  species: string | null;
 
   @ApiProperty()
   published: boolean;
@@ -36,8 +36,8 @@ export class CaresheetEntity implements CareSheet {
   @ApiProperty({ required: false, nullable: true })
   authorId: string | null;
 
-  @ApiProperty({ required: false, type: UserEntity })
-  author?: UserEntity;
+  @ApiProperty({ required: false, type: UserEntity, nullable: true })
+  author?: UserEntity | null;
 
   constructor({ author, ...data }: Partial<CaresheetEntity>) {
     Object.assign(this, data);
