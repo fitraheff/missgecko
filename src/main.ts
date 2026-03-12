@@ -7,9 +7,27 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(helmet());
+
+  app.enableCors();
+
+  //   // Production
+  //  if (process.env.NODE_ENV === 'production') {
+  // app.enableCors({
+  //   origin: process.env.ALLOWED_ORIGINS?.split(',') || [],
+  //   origin: ['https://domain-anda.com', 'https://admin.domain-anda.com'],
+  //   credentials: true, // Jika pakai cookie/authorization header
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  // });
+  // } else {
+  // app.enableCors();
+  // }
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(
