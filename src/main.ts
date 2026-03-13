@@ -8,9 +8,14 @@ import {
 } from '@nestjs/common';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import helmet from 'helmet';
+import { LoggerService } from './logger/logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
+
+  app.useLogger(app.get(LoggerService));
 
   app.use(helmet());
 

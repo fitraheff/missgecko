@@ -13,7 +13,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @Throttle({ short: { limit: 5, ttl: 60000 } }) // Allow 5 requests per minute
+  @Throttle({ global: { limit: 5, ttl: 60000 } }) // Allow 5 requests per minute
   @ApiOkResponse({ type: AuthEntity })
   login(@Body() { email, password }: LoginDto) {
     return this.authService.login(email, password);

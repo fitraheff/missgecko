@@ -11,6 +11,7 @@ import { CompanyModule } from './company/company.module';
 import { CaresheetModule } from './caresheet/caresheet.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -26,21 +27,12 @@ import { APP_GUARD } from '@nestjs/core';
     CaresheetModule,
     ThrottlerModule.forRoot([
       {
-        name: 'short',
+        name: 'global',
         ttl: 1000,
         limit: 3,
       },
-      {
-        name: 'medium',
-        ttl: 10000,
-        limit: 20,
-      },
-      {
-        name: 'long',
-        ttl: 60000,
-        limit: 100,
-      },
     ]),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
