@@ -12,6 +12,7 @@ import { CaresheetModule } from './caresheet/caresheet.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { LoggerModule } from './logger/logger.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LoggerModule } from './logger/logger.module';
       },
     ]),
     LoggerModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [

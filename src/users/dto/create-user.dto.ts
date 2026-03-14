@@ -29,9 +29,11 @@ export class CreateUserDto {
   @MaxLength(55)
   password: string;
 
-  @ApiProperty({ required: false, nullable: true })
-  @IsString()
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
   @IsOptional()
-  @MaxLength(255)
-  photoUrl: string | null;
+  photo?: any;
 }
