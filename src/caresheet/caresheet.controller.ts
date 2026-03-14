@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Get,
@@ -14,6 +11,8 @@ import {
   NotFoundException,
   UseGuards,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CaresheetService } from './caresheet.service';
 import { CreateCaresheetDto } from './dto/create-caresheet.dto';
@@ -23,9 +22,11 @@ import {
   ApiOkResponse,
   ApiCreatedResponse,
   ApiBearerAuth,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { CaresheetEntity } from './entities/caresheet.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('caresheet')
 @ApiTags('Caresheet')
@@ -35,13 +36,16 @@ export class CaresheetController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({ type: CaresheetEntity })
   async create(
+    @UploadedFile() file: Express.Multer.File,
     @Body() createCaresheetDto: CreateCaresheetDto,
     @Req() req: any,
   ) {
     return new CaresheetEntity(
-      await this.caresheetService.create(createCaresheetDto, req.user.id),
+      await this.caresheetService.create(createCaresheetDto, req.user.id, file),
     );
   }
 
@@ -76,13 +80,16 @@ export class CaresheetController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
   @ApiOkResponse({ type: CaresheetEntity })
   async update(
     @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() updateCaresheetDto: UpdateCaresheetDto,
   ) {
     return new CaresheetEntity(
-      await this.caresheetService.update(id, updateCaresheetDto),
+      await this.caresheetService.update(id, updateCaresheetDto, file),
     );
   }
 

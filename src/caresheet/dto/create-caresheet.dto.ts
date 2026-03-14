@@ -6,7 +6,6 @@ import {
   IsBoolean,
   MaxLength,
   MinLength,
-  IsUrl,
 } from 'class-validator';
 
 export class CreateCaresheetDto {
@@ -30,10 +29,13 @@ export class CreateCaresheetDto {
   @IsString()
   content: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
   @IsOptional()
-  @IsUrl()
-  imageUrl?: string;
+  imageUrl?: any;
 
   @ApiProperty({ required: false })
   @IsOptional()

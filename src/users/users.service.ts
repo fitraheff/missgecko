@@ -63,7 +63,10 @@ export class UsersService {
 
     return this.prisma.user.update({
       where: { id },
-      data: { ...updateUserDto, ...(photoUrl && { photoUrl }) },
+      data: {
+        ...updateUserDto,
+        ...(photoUrl && { photoUrl }),
+      },
     });
   }
 
