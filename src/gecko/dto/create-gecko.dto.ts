@@ -34,11 +34,9 @@ export class CreateGeckoDto {
   @ApiProperty({ required: false })
   deskripsi?: string;
 
-  @IsString()
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
   @IsOptional()
-  @IsNotEmpty()
-  @ApiProperty({ required: false })
-  imageUrl?: string;
+  image?: any;
 
   @IsString()
   @IsOptional()

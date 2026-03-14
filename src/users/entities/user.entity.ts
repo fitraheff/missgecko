@@ -2,11 +2,6 @@ import { User, Role } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
-// export enum Role {
-//   ADMIN = 'ADMIN',
-//   SUPERADMIN = 'SUPERADMIN',
-// }
-
 export class UserEntity implements User {
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);

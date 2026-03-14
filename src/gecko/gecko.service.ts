@@ -2,15 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { CreateGeckoDto } from './dto/create-gecko.dto';
 import { UpdateGeckoDto } from './dto/update-gecko.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class GeckoService {
-  constructor(private prisma: PrismaService) {}
-  create(createGeckoDto: CreateGeckoDto, authorId: string) {
+  constructor(
+    private prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
+  async create(
+    createGeckoDto: CreateGeckoDto,
+    authorId: string,
+    file?: Express.Multer.File,
+  ) {
+    let imageUrl: string | undefined;
+
+    if (file) {
+      imageUrl = await this.cloudinaryService.uploadImageStream(file);
+    }
+
     return this.prisma.gecko.create({
       data: {
         ...createGeckoDto,
         authorId,
+        imageUrl,
       },
     });
   }
@@ -30,10 +45,19 @@ export class GeckoService {
     });
   }
 
-  update(id: string, updateGeckoDto: UpdateGeckoDto) {
+  async update(
+    id: string,
+    updateGeckoDto: UpdateGeckoDto,
+    file?: Express.Multer.File,
+  ) {
+    let imageUrl: string | undefined;
+
+    if (file) {
+      imageUrl = await this.cloudinaryService.uploadImageStream(file);
+    }
     return this.prisma.gecko.update({
       where: { id },
-      data: updateGeckoDto,
+      data: { ...updateGeckoDto, ...(imageUrl && { imageUrl }) },
     });
   }
 

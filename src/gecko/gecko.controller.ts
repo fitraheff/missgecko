@@ -11,6 +11,8 @@ import {
   NotFoundException,
   UseGuards,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GeckoService } from './gecko.service';
 import { CreateGeckoDto } from './dto/create-gecko.dto';
@@ -20,9 +22,11 @@ import {
   ApiOkResponse,
   ApiCreatedResponse,
   ApiBearerAuth,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GeckoEntity } from './entities/gecko.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('gecko')
 @ApiTags('Gecko')
@@ -32,9 +36,17 @@ export class GeckoController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('photo'))
+  @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({ type: GeckoEntity })
-  async create(@Body() dto: CreateGeckoDto, @Req() req: any) {
-    return new GeckoEntity(await this.geckoService.create(dto, req.user.id));
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() dto: CreateGeckoDto,
+    @Req() req: any,
+  ) {
+    return new GeckoEntity(
+      await this.geckoService.create(dto, req.user.id, file),
+    );
   }
 
   @Get('drafts')
@@ -66,12 +78,17 @@ export class GeckoController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('photo'))
+  @ApiConsumes('multipart/form-data')
   @ApiOkResponse({ type: GeckoEntity })
   async update(
     @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() updateGeckoDto: UpdateGeckoDto,
   ) {
-    return new GeckoEntity(await this.geckoService.update(id, updateGeckoDto));
+    return new GeckoEntity(
+      await this.geckoService.update(id, updateGeckoDto, file),
+    );
   }
 
   @Delete(':id')
