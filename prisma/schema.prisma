@@ -45,7 +45,7 @@ model Gecko {
 }
 
 model Company {
-  id        Int  @id @default(1)
+  id        Int     @id @default(1)
   name      String  @db.VarChar(100)
   visi      String
   misi      String

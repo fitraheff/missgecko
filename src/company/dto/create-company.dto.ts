@@ -6,6 +6,7 @@ import {
   MinLength,
   IsUrl,
   IsEmail,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateCompanyDto {
@@ -28,9 +29,12 @@ export class CreateCompanyDto {
   @MinLength(3)
   misi: string;
 
-  @ApiProperty()
-  @IsUrl()
-  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  @IsOptional()
   logo: string;
 
   @ApiProperty()
