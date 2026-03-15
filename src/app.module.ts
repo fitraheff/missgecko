@@ -8,7 +8,6 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { config } from './config/app.config';
 import { CompanyModule } from './modules/company/company.module';
-import { CaresheetModule } from './modules/caresheet/caresheet.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { LoggerModule } from './logger/logger.module';
@@ -25,7 +24,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
       load: [config],
     }),
     CompanyModule,
-    CaresheetModule,
     ThrottlerModule.forRoot([
       {
         name: 'global',

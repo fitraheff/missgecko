@@ -8,6 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 
 export class CreateGeckoDto {
   @ApiProperty()
@@ -19,11 +20,13 @@ export class CreateGeckoDto {
 
   @ApiProperty()
   @IsNumber()
+  @Type(() => Number)
   @IsNotEmpty()
   harga: number;
 
   @ApiProperty()
   @IsNumber()
+  @Type(() => Number)
   @IsNotEmpty()
   stok: number;
 
@@ -57,6 +60,7 @@ export class CreateGeckoDto {
   // authorId?: string;
 
   @IsBoolean()
+  @Transform(({ value }) => value === 'true')
   @IsOptional()
   @ApiProperty({ required: false, default: false })
   published?: boolean = false;
