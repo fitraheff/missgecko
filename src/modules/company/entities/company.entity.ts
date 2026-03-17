@@ -11,8 +11,8 @@ export class CompanyEntity implements Company {
   @ApiProperty()
   visi: string;
 
-  @ApiProperty()
-  misi: string;
+  @ApiProperty({ required: false, nullable: true })
+  misi: string | null;
 
   @ApiProperty()
   logo: string;
@@ -33,5 +33,5 @@ export class CompanyEntity implements Company {
   tiktok: string;
 
   @ApiProperty()
-  tentangkami: string;
+  deskripsi: string;
 }

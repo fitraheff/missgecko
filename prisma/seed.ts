@@ -41,7 +41,7 @@ async function main() {
       whatsapp: '6281234567890',
       instagram: 'https://instagram.com/geckoindonesia',
       tiktok: 'https://tiktok.com/@geckoindonesia',
-      tentangkami:
+      deskripsi:
         'Gecko Indonesia adalah toko yang menyediakan berbagai jenis leopard gecko berkualitas tinggi.',
     },
   });

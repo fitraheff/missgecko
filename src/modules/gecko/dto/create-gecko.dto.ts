@@ -7,8 +7,10 @@ import {
   IsBoolean,
   MaxLength,
   MinLength,
+  IsEnum,
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
+import { Status, Gender } from '@prisma/client';
 
 export class CreateGeckoDto {
   @ApiProperty()
@@ -25,10 +27,14 @@ export class CreateGeckoDto {
   harga: number;
 
   @ApiProperty()
-  @IsNumber()
-  @Type(() => Number)
   @IsNotEmpty()
-  stok: number;
+  @IsEnum(Status)
+  status: Status;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEnum(Gender)
+  gender: Gender;
 
   @IsString()
   @IsOptional()
@@ -51,13 +57,42 @@ export class CreateGeckoDto {
   @MinLength(3)
   @MaxLength(255)
   @ApiProperty({ required: false })
-  jenis?: string;
+  morph?: string;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // @IsOptional()
-  // @ApiProperty({ required: false })
-  // authorId?: string;
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(255)
+  @ApiProperty({ required: false })
+  sire?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(255)
+  @ApiProperty({ required: false })
+  line?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(255)
+  @ApiProperty({ required: false })
+  dam?: string;
+
+  @IsNumber()
+  @Type(() => Number)
+  @IsOptional()
+  @ApiProperty({ required: false })
+  weight?: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @Type(() => Date)
+  dob: Date;
 
   @IsBoolean()
   @Transform(({ value }) => value === 'true')

@@ -23,22 +23,32 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  gecko     Gecko[]
-  careSheet CareSheet[]
+  gecko         Gecko[]
+  reviews       Reviews[]
+  transactions  Transactions[]
 }
 
 model Gecko {
   id        String   @id @default(cuid())
   name      String   @db.VarChar(255)
   harga     Int
-  stok      Int
+  status    Status   @default(AVAILABLE)
   imageUrl  String?
-  jenis     String?  @db.VarChar(255)
   deskripsi String?  @db.VarChar(1000)
   published Boolean  @default(false)
   
+  morph     String?  @db.VarChar(255)
+  sire      String?  @db.VarChar(255)
+  line      String?  @db.VarChar(255)
+  dam       String?  @db.VarChar(255)
+  dob       DateTime?
+  weight    Int?
+  gender    Gender?
+  
   author    User?     @relation(fields: [authorId], references: [id])
   authorId  String?
+
+  transactionItems   TransactionItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -47,8 +57,9 @@ model Gecko {
 model Company {
   id        Int     @id @default(1)
   name      String  @db.VarChar(100)
+  deskripsi String
   visi      String
-  misi      String
+  misi      String?
   logo      String
 
   alamat    String
@@ -58,21 +69,14 @@ model Company {
 
   instagram String
   tiktok    String
-
-  tentangkami String
 }
 
-model CareSheet {
+model Reviews {
   id          String   @id @default(cuid())
-  title       String   @db.VarChar(255)
-  description String?
-  content     String
-  imageUrl    String?
-  species     String?
+  name        String   @db.VarChar(255)
+  message     String
+  photo       String?
   published   Boolean  @default(false)
-  slug        String   @unique
-  
-//difficulty  String?
 
   author      User?    @relation(fields: [authorId], references: [id])
   authorId    String?
@@ -81,8 +85,45 @@ model CareSheet {
   updatedAt   DateTime @updatedAt
 }
 
+model Transactions {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(255)     
+  telp        String   @db.VarChar(20)
+
+  author      User?    @relation(fields: [authorId], references: [id])
+  authorId    String?
+
+  items       TransactionItem[]
+
+  createdAt   DateTime @default(now())
+}
+
+model TransactionItem {
+  id            String   @id @default(cuid())
+  
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  transactionId String
+  
+  gecko         Gecko @relation(fields: [geckoId], references: [id])
+  geckoId       String
+
+  soldPrice     Int
+
+  @@unique([transactionId, geckoId])
+}
+
 
 enum Role {
   SUPERADMIN
   ADMIN
+}
+
+enum Status {
+  AVAILABLE
+  SOLD
+}
+
+enum Gender {
+  JANTAN
+  BETINA
 }

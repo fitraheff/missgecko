@@ -25,8 +25,7 @@ export class CreateCompanyDto {
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  @MinLength(3)
+  @IsOptional()
   misi: string;
 
   @ApiProperty({
@@ -70,5 +69,5 @@ export class CreateCompanyDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  tentangkami: string;
+  deskripsi: string;
 }

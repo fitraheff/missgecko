@@ -1,7 +1,6 @@
-import { Gecko } from '@prisma/client';
+import { Gecko, Status, Gender } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
-
 export class GeckoEntity implements Gecko {
   @ApiProperty()
   id: string;
@@ -26,6 +25,29 @@ export class GeckoEntity implements Gecko {
 
   @ApiProperty()
   published: boolean;
+
+  @ApiProperty({ required: false, nullable: true, enum: Gender })
+  gender: Gender | null;
+
+  @ApiProperty({ enum: Status, default: 'AVAILABLE' })
+  status: Status;
+
+  @ApiProperty({ required: false, nullable: true })
+  morph: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  dob: Date | null;
+  @ApiProperty({ required: false, nullable: true })
+  sire: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  line: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  dam: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  weight: number | null;
 
   @ApiProperty({ required: false, nullable: true })
   authorId: string | null;
