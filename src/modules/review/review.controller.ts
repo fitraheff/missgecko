@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
   UseGuards,
   NotFoundException,
   UploadedFile,
@@ -41,10 +42,11 @@ export class ReviewController {
   @Post()
   async create(
     @Body() createReviewDto: CreateReviewDto,
+    @Req() req: any,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return new ReviewEntity(
-      await this.reviewService.create(createReviewDto, file),
+      await this.reviewService.create(createReviewDto, req.user.id, file),
     );
   }
 

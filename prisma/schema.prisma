@@ -24,7 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
   
   gecko         Gecko[]
-  reviews       Reviews[]
+  review        Review[]
   transactions  Transactions[]
 }
 
@@ -71,7 +71,7 @@ model Company {
   tiktok    String
 }
 
-model Reviews {
+model Review {
   id          String   @id @default(cuid())
   name        String   @db.VarChar(255)
   message     String

@@ -1,26 +1,67 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ReviewService {
-  create(createReviewDto: CreateReviewDto) {
-    return 'This action adds a new review';
+  constructor(
+    private prisma: PrismaService,
+    private cloudinary: CloudinaryService,
+  ) {}
+
+  async create(
+    createReviewDto: CreateReviewDto,
+    authorId: string,
+    file?: Express.Multer.File,
+  ) {
+    let photo: string | undefined;
+
+    if (file) {
+      photo = await this.cloudinary.uploadImageStream(file);
+    }
+
+    return this.prisma.review.create({
+      data: {
+        ...createReviewDto,
+        authorId,
+        photo,
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all review`;
+    return this.prisma.review.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} review`;
+  findOne(id: string) {
+    return this.prisma.review.findUnique({
+      where: { id },
+      include: { author: true },
+    });
   }
 
-  update(id: number, updateReviewDto: UpdateReviewDto) {
-    return `This action updates a #${id} review`;
+  async update(
+    id: string,
+    updateReviewDto: UpdateReviewDto,
+    file?: Express.Multer.File,
+  ) {
+    let photo: string | undefined;
+
+    if (file) {
+      photo = await this.cloudinary.uploadImageStream(file);
+    }
+
+    return this.prisma.review.update({
+      where: { id },
+      data: { ...updateReviewDto, ...(photo && { photo }) },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} review`;
+  remove(id: string) {
+    return this.prisma.review.delete({
+      where: { id },
+    });
   }
 }
