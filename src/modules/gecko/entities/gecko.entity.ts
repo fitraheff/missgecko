@@ -11,9 +11,6 @@ export class GeckoEntity implements Gecko {
   @ApiProperty()
   harga: number;
 
-  @ApiProperty()
-  stok: number;
-
   @ApiProperty({ required: false, nullable: true })
   deskripsi: string | null;
 

@@ -12,7 +12,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { LoggerModule } from './logger/logger.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { ReviewModule } from './review/review.module';
+import { ReviewModule } from './modules/review/review.module';
 
 @Module({
   imports: [
